@@ -48,13 +48,22 @@ When a post is created in the Block Editor, WordPress stores the content inside 
 
 ```mermaid
 flowchart TD
-    A[Browser Request] --> B[WordPress Core]
-    B --> C[Load Post from wp_posts]
-    C --> D[parse_blocks()]
-    D --> E[Render Blocks]
-    E --> F[Load Block Theme Template]
-    F --> G[Generate HTML]
-    G --> H[Browser Output]
+    browser["Browser Request"]
+    core["WordPress Core"]
+    db["Load Post from wp_posts"]
+    parser["Block Parser"]
+    renderer["Block Renderer"]
+    template["Block Theme Template"]
+    html["Generate HTML"]
+    output["Browser Output"]
+
+    browser --> core
+    core --> db
+    db --> parser
+    parser --> renderer
+    renderer --> template
+    template --> html
+    html --> output
 ```
 
 ---
