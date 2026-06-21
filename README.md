@@ -47,23 +47,19 @@ When a post is created in the Block Editor, WordPress stores the content inside 
 ## Request Lifecycle
 
 ```mermaid
-flowchart TD
-    browser["Browser Request"]
-    core["WordPress Core"]
-    db["Load Post from wp_posts"]
-    parser["Block Parser"]
-    renderer["Block Renderer"]
-    template["Block Theme Template"]
-    html["Generate HTML"]
-    output["Browser Output"]
+flowchart LR
+    editor["Block Editor"]
+    database["wp_posts.post_content"]
+    parser["parse_blocks"]
+    renderer["render_block"]
+    theme["Block Theme"]
+    frontend["Frontend HTML"]
 
-    browser --> core
-    core --> db
-    db --> parser
+    editor --> database
+    database --> parser
     parser --> renderer
-    renderer --> template
-    template --> html
-    html --> output
+    renderer --> theme
+    theme --> frontend
 ```
 
 ---
