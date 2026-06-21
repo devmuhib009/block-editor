@@ -1,7 +1,6 @@
-# WordPress Block Theme কন্টেন্ট কোথায় থাকে? 
+# WordPress Block Editor কিভাবে কাজ করে?
 
-WordPress Block Theme ব্যবহার করলে পোস্টের কনটেন্ট মূলত WordPress database-এই save হয়। 
-আমরা ওয়ার্ডপ্রেস ব্লক এডিটরে কিছু কমেন্ট দেখতে পাই, এটা 
+WordPress Classic theme এর মত WordPress Block Theme ও পোস্টের কনটেন্ট মূলত WordPress database-এই save হয়। Block editor যখন আপনি code editor এ ওপেন করবেন, তখন HTML comment এর মত কিছু কমেন্ট দেখতে পাবেন। এগুলোকে block markup বলা হয়। 
 
 ---
 
