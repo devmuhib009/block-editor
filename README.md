@@ -1,6 +1,7 @@
-# WordPress Block Theme: Database → Parser → Render Flow
+# WordPress Block Theme কন্টেন্ট কোথায় থাকে? 
 
-This document explains how WordPress stores Gutenberg blocks in the database and renders them on the frontend using a Block Theme.
+WordPress Block Theme ব্যবহার করলে পোস্টের কনটেন্ট মূলত WordPress database-এই save হয়। 
+আমরা ওয়ার্ডপ্রেস ব্লক এডিটরে কিছু কমেন্ট দেখতে পাই, এটা 
 
 ---
 
