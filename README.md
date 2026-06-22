@@ -52,14 +52,12 @@ flowchart LR
     database["wp_posts.post_content"]
     parser["parse_blocks"]
     renderer["render_block"]
-    theme["Block Theme"]
     frontend["Frontend HTML"]
 
     editor --> database
     database --> parser
     parser --> renderer
-    renderer --> theme
-    theme --> frontend
+    renderer --> frontend
 ```
 
 ---
