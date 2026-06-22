@@ -319,7 +319,7 @@ Examples:
 
 ## Image কিভাবে কাজ করে?
 
-WordPress-এ image-এর data এক জায়গায় না, একাধিক table-এ save থাকে। ধরুন আপনি একটি image upload করলেন: ``` my-photo.jpg ``` WordPress সাধারণত নিচের জায়গাগুলোতে data রাখে।
+WordPress-এ image-এর data এক জায়গায় না, একাধিক table-এ save থাকে। ধরুন আপনি একটি image upload করলেন: ``` my-photo.jpg ``` WordPress সাধারণত নিচের জায়গাগুলোতে data রাখে। Block শুধু attachment ID (31) save করে, আর actual image information wp_posts, wp_postmeta, এবং uploads folder-এ থাকে।
 
 ### 1. wp_posts
 Image upload করলে WordPress image-কে একটি attachment post হিসেবে save করে।
@@ -384,6 +384,59 @@ Actual file থাকে:
 ```
 wp-content/uploads/2026/06/my-photo.jpg
 ```
+
+#### Database
+```html
+<!-- wp:image {"id":31,"sizeSlug":"large"} -->
+```
+
+Parse Result
+```php
+[
+    'blockName' => 'core/image',
+
+    'attrs' => [
+        'id' => 31,
+        'sizeSlug' => 'large'
+    ]
+]
+```
+
+Render Time
+```php
+$image_id = $block['attrs']['id'];
+```
+
+Result:
+```
+31
+```
+
+তারপর:
+```php
+wp_get_attachment_metadata( 31 );
+```
+
+Query করে ``` wp_postmeta ``` থেকে size information আনে।
+
+এরপর:
+```php
+wp_get_attachment_image(
+    31,
+    'large'
+);
+```
+
+Output
+```html
+<img
+    src="my-photo-1024x683.jpg"
+    width="1024"
+    height="683"
+/>
+```
+
+
 
 Complete flow:
 
