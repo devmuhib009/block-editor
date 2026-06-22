@@ -44,6 +44,82 @@ WordPress Classic theme এর মত WordPress Block Theme ও পোস্ট�
 
 ---
 
+### ডাটাবেজ থেকে কন্টেন্ট কিভাবে প্রদর্শিত হয়?
+
+### Paragraph Block
+
+```html
+<!-- wp:paragraph -->
+<p>Hello World</p>
+<!-- /wp:paragraph -->
+```
+
+উপরের ব্লক মার্কআপটি ডাটাবেজে plain text হিসাবে ডাটাবেজে সংরক্ষিত হয়। 
+
+কিন্তু WordPress internally প্রায় এরকম structure তৈরি করে:
+
+```html
+{
+  "blockName": "core/paragraph",
+  "attrs": {},
+  "content": "<p>Hello World</p>"
+}
+```
+
+```html
+Array(
+    [0] => Array(
+        [blockName] => "core/paragraph",
+        [attrs] => Array(),
+        [innerBlocks] => Array(),
+        [innerHTML] => "<p>Hello World</p>",
+        [innerContent] => Array(
+            [0] => "<p>Hello World</p>"
+        )
+    )
+)
+```
+
+### Image Block
+
+```html
+<!-- wp:image {"id":31,"sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image size-large">
+    <img src="uploads/image.jpg" alt="" class="wp-image-31" />
+</figure>
+<!-- /wp:image -->
+```
+
+```html
+{
+  "id": 31,
+  "sizeSlug": "large",
+  "linkDestination": "none"
+}
+```
+
+```html
+[
+    [
+        'blockName'    => 'core/image',
+        'attrs'        => [
+            'id' => 31,
+            'sizeSlug' => 'large',
+            'linkDestination' => 'none',
+        ],
+        'innerBlocks'  => [],
+        'innerHTML'    => '<figure class="wp-block-image size-large">
+            <img src="uploads/image.jpg" alt="" class="wp-image-31" />
+        </figure>',
+        'innerContent' => [
+            '<figure class="wp-block-image size-large">
+                <img src="uploads/image.jpg" alt="" class="wp-image-31" />
+            </figure>'
+        ],
+    ]
+]
+```
+
 ## Request Lifecycle
 
 ```mermaid
