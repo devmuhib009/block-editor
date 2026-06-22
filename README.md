@@ -58,7 +58,7 @@ WordPress Classic theme এর মত WordPress Block Theme ও পোস্ট�
 
 কিন্তু WordPress internally প্রায় এরকম structure তৈরি করে:
 
-```html
+```json
 {
   "blockName": "core/paragraph",
   "attrs": {},
@@ -66,7 +66,7 @@ WordPress Classic theme এর মত WordPress Block Theme ও পোস্ট�
 }
 ```
 
-```html
+```php
 Array(
     [0] => Array(
         [blockName] => "core/paragraph",
@@ -90,7 +90,7 @@ Array(
 <!-- /wp:image -->
 ```
 
-```html
+```json
 {
   "id": 31,
   "sizeSlug": "large",
@@ -98,7 +98,7 @@ Array(
 }
 ```
 
-```html
+```php
 [
     [
         'blockName'    => 'core/image',
@@ -127,7 +127,7 @@ Array(
 <!-- /wp:paragraph -->
 ```
 
-```html
+```json
 {
   "blockName": "core/paragraph",
   "attrs": {
@@ -145,7 +145,7 @@ Array(
 }
 ```
 
-```html
+```php
 [
     [
         'blockName' => 'core/paragraph',
@@ -190,6 +190,52 @@ flowchart LR
 
 ---
 
+## Block Parsing
+
+[Parse_blocks()]([https://wordpress.org/documentation/](https://developer.wordpress.org/reference/functions/parse_blocks/)) database থেকে block markup string পড়ে সেই markup কে parse করে structured PHP array তৈরি করে।
+
+```php
+$blocks = parse_blocks( $post->post_content );
+```
+
+```php
+Array
+(
+    [0] => Array
+        (
+            [blockName] => core/paragraph
+            [attrs] => Array()
+            [innerBlocks] => Array()
+            [innerHTML] => <p>Hello World</p>
+        )
+)
+```
+
+```php
+<?php
+function wpdocs_display_first_paragraph_block() {
+
+    global $post;
+
+    $blocks = parse_blocks( $post->post_content );
+
+    foreach ( $blocks as $block ) {
+
+        if ( 'core/paragraph' === $block['blockName'] ) {
+
+            echo render_block( $block );
+
+            break;
+        }
+    }
+}
+?>
+```
+
+```html
+Hello World
+```
+
 ## Block Theme-এর Template এবং Template Part কোথায় save হয়?
 
 যদি Site Editor থেকে আপনি template edit করেন:
@@ -199,13 +245,7 @@ Template Part changes → wp_template_part
 
 এগুলো database-এ custom post type হিসেবে save হয়, এবং wp_posts টেবিলেই থাকে।
 
-## Block Parsing
 
-WordPress converts block markup into structured block objects.
-
-```php
-$blocks = parse_blocks( $post->post_content );
-```
 
 ### Example Output
 
