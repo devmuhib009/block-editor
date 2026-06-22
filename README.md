@@ -236,43 +236,45 @@ function wpdocs_display_first_paragraph_block() {
 Hello World
 ```
 
-## Block Theme-এর Template এবং Template Part কোথায় save হয়?
-
-যদি Site Editor থেকে আপনি template edit করেন:
-
-Template changes → wp_template
-Template Part changes → wp_template_part
-
-এগুলো database-এ custom post type হিসেবে save হয়, এবং wp_posts টেবিলেই থাকে।
-
-
-
-### Example Output
-
-```php
-Array(
-    [0] => Array(
-        [blockName] => "core/paragraph"
-        [attrs] => Array()
-    )
-)
-```
-
----
-
 ## Rendering Blocks
 
-Each block is rendered individually.
+render_block() হলো WordPress-এর একটি core function, যা parsed block array-কে frontend HTML-এ convert করে। এটি Block type identify করে ``` WP_Query ``` চালায় এবং HTML generate করে। 
 
 ```php
 echo render_block( $block );
 ```
 
-### Output
+```php
+if ( 'core/latest-posts' === $block['blockName'] ) {
 
-```html
-<p>Hello World</p>
+    $query = new WP_Query(
+        [
+            'posts_per_page' => 5,
+        ]
+    );
+
+    // Generate HTML
+}
 ```
+
+```mermaid
+flowchart TD
+    A["render_block()"]
+    A --> B["Check blockName"]
+
+    B --> C["core/paragraph"]
+    B --> D["core/latest-posts"]
+
+    C --> E["Use saved HTML"]
+
+    D --> F["Run Render Callback"]
+    F --> G["WP_Query"]
+    G --> H["Generate HTML"]
+```
+
+parse_blocks() ``` Markup → PHP Array ```
+render_block() ``` PHP Array → HTML ```
+
 
 ---
 
@@ -287,54 +289,6 @@ flowchart TD
     D --> E[_wp_attachment_metadata]
     E --> F[Generated Image Sizes]
 ```
-
----
-
-## Block Theme Rendering Flow
-
-```mermaid
-flowchart LR
-    A[Block Editor]
-    B[wp_posts.post_content]
-    C[parse_blocks()]
-    D[render_block()]
-    E[Theme Template]
-    F[Frontend HTML]
-
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-```
-
----
-
-## Template Resolution
-
-When a visitor opens a post, WordPress selects the appropriate Block Theme template.
-
-Typical hierarchy:
-
-```text
-single-post.html
-single.html
-page.html
-index.html
-```
-
----
-
-## Site Editor Templates
-
-Templates modified through the Site Editor are stored in the database as custom post types.
-
-```text
-wp_template
-wp_template_part
-```
-
-These records are also stored inside the `wp_posts` table.
 
 ---
 
@@ -364,40 +318,22 @@ Examples:
 
 ---
 
-## Complete Architecture
+## Block Theme-এর Template এবং Template Part কোথায় save হয়?
 
-```mermaid
-flowchart TD
+যদি Site Editor থেকে আপনি template edit করেন:
 
-    A[User Creates Content]
-    --> B[Block Editor]
+Template changes → wp_template
+Template Part changes → wp_template_part
 
-    B --> C[wp_posts.post_content]
-
-    C --> D[Visitor Requests URL]
-
-    D --> E[WP_Query]
-
-    E --> F[Load Post Data]
-
-    F --> G[parse_blocks()]
-
-    G --> H[render_block()]
-
-    H --> I[Block Theme Templates]
-
-    I --> J[Generate HTML]
-
-    J --> K[Browser]
-```
+এগুলো database-এ custom post type হিসেবে save হয়, এবং wp_posts টেবিলেই থাকে।
 
 ---
 
 ## Key Takeaways
 
 * Gutenberg stores content inside `wp_posts.post_content`
-* Blocks are represented using HTML comment markers
+* Blocks are represented using HTML block markers
 * `parse_blocks()` converts serialized markup into block objects
 * `render_block()` generates frontend HTML
 * Block Themes control presentation, not content storage
-* Templates edited through the Site Editor are stored as `wp_template` and `wp_template_part`
+* Templates edited through the Site Editor like `wp_template` and `wp_template_part` are stored as custom post type
