@@ -62,6 +62,15 @@ flowchart LR
 
 ---
 
+## Block Theme-এর Template এবং Template Part কোথায় save হয়?
+
+যদি Site Editor থেকে আপনি template edit করেন:
+
+Template changes → wp_template
+Template Part changes → wp_template_part
+
+এগুলো database-এ custom post type হিসেবে save হয়, এবং wp_posts টেবিলেই থাকে।
+
 ## Block Parsing
 
 WordPress converts block markup into structured block objects.
