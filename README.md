@@ -192,7 +192,7 @@ flowchart LR
 
 ## Block Parsing
 
-[Parse_blocks()]([https://wordpress.org/documentation/](https://developer.wordpress.org/reference/functions/parse_blocks/)) database থেকে block markup string পড়ে সেই markup কে parse করে structured PHP array তৈরি করে।
+[parse_blocks()](https://developer.wordpress.org/reference/functions/parse_blocks/) database থেকে block markup string পড়ে সেই markup কে parse করে structured PHP array তৈরি করে।
 
 ```php
 $blocks = parse_blocks( $post->post_content );
@@ -238,7 +238,7 @@ Hello World
 
 ## Rendering Blocks
 
-render_block() হলো WordPress-এর একটি core function, যা parsed block array-কে frontend HTML-এ convert করে। এটি Block type identify করে ``` WP_Query ``` চালায় এবং HTML generate করে। 
+[render_block()](https://developer.wordpress.org/reference/functions/render_block/) হলো WordPress-এর একটি core function, যা parsed block array-কে frontend HTML-এ convert করে। এটি Block type identify করে ``` WP_Query ``` চালায় এবং HTML generate করে। 
 
 ```php
 echo render_block( $block );
