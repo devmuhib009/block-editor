@@ -291,20 +291,6 @@ render_block() ``` PHP Array → HTML ```
 
 ---
 
-## Image Block Relationship
-
-```mermaid
-flowchart TD
-    A[Image Block]
-    A --> B[Attachment ID 31]
-    B --> C[wp_posts]
-    B --> D[wp_postmeta]
-    D --> E[_wp_attachment_metadata]
-    E --> F[Generated Image Sizes]
-```
-
----
-
 ## Dynamic vs Static Blocks
 
 ### Static Blocks
@@ -328,6 +314,88 @@ Examples:
 * Query Loop
 * Site Title
 * Navigation
+
+---
+
+## Image কিভাবে কাজ করে?
+
+WordPress-এ image-এর data এক জায়গায় না, একাধিক table-এ save থাকে। ধরুন আপনি একটি image upload করলেন: ``` my-photo.jpg ``` WordPress সাধারণত নিচের জায়গাগুলোতে data রাখে।
+
+### 1. wp_posts
+Image upload করলে WordPress image-কে একটি attachment post হিসেবে save করে।
+```sql
+SELECT *
+FROM wp_posts
+WHERE post_type = 'attachment';
+```
+| ID | post_type  | post_title |
+| -- | ---------- | ---------- |
+| 31 | attachment | my-photo   |
+
+### 2. wp_postmeta
+Attachment-এর metadata এখানে থাকে।
+
+```sql
+SELECT *
+FROM wp_postmeta
+WHERE post_id = 31;
+```
+
+#### _wp_attached_file
+```
+meta_key = _wp_attached_file
+meta_value = 2026/06/my-photo.jpg
+```
+
+#### _wp_attachment_metadata
+এটাই সবচেয়ে গুরুত্বপূর্ণ meta field।
+
+```
+meta_key = _wp_attachment_metadata
+```
+
+```php
+Array(
+    [width] => 1200
+    [height] => 800
+    [file] => 2026/06/my-photo.jpg
+
+    [sizes] => Array(
+
+        [thumbnail] => Array(
+            [file] => my-photo-150x150.jpg
+        )
+
+        [medium] => Array(
+            [file] => my-photo-300x200.jpg
+        )
+
+        [large] => Array(
+            [file] => my-photo-1024x683.jpg
+        )
+
+    )
+)
+```
+## Physical File
+Database image binary save করে না।
+Actual file থাকে:
+
+```
+wp-content/uploads/2026/06/my-photo.jpg
+```
+
+Complete flow:
+
+```mermaid
+flowchart TD
+    A[Image Block]
+    A --> B[Attachment ID 31]
+    B --> C[wp_posts]
+    B --> D[wp_postmeta]
+    D --> E[_wp_attachment_metadata]
+    E --> F[Generated Image Sizes]
+```
 
 ---
 
