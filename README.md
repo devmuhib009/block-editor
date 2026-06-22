@@ -6,7 +6,7 @@ WordPress Classic theme এর মত WordPress Block Theme ও পোস্ট�
 
 ## How Gutenberg Stores Content
 
-When a post is created in the Block Editor, WordPress stores the content inside the `wp_posts.post_content` field as serialized block markup.
+আমরা ব্লক এডিটরে যে কন্টেন্ট এড করি, এগুলো ব্লক মার্কআপ হিসাবে থাকে। এই কন্টেন্টগুলো ডাটাবেজের `wp_posts.post_content` field as serialized block markup হিসাবে সেভ হয়। 
 
 ### Example
 
