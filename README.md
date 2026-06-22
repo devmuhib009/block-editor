@@ -120,6 +120,58 @@ Array(
 ]
 ```
 
+### Paragraph with Attributes
+```html
+<!-- wp:paragraph {"className":"simple-text","style":{"css":"color:red;"},"anchor":"Hello-World"} -->
+<p class="simple-text has-custom-css" id="Hello-World">Hello World!</p>
+<!-- /wp:paragraph -->
+```
+
+```html
+{
+  "blockName": "core/paragraph",
+  "attrs": {
+    "className": "simple-text",
+    "style": {
+      "css": "color:red;"
+    },
+    "anchor": "Hello-World"
+  },
+  "innerBlocks": [],
+  "innerHTML": "<p class=\"simple-text has-custom-css\" id=\"Hello-World\">Hello World!</p>",
+  "innerContent": [
+    "<p class=\"simple-text has-custom-css\" id=\"Hello-World\">Hello World!</p>"
+  ]
+}
+```
+
+```html
+[
+    [
+        'blockName' => 'core/paragraph',
+
+        'attrs' => [
+            'className' => 'simple-text',
+
+            'style' => [
+                'css' => 'color:red;'
+            ],
+
+            'anchor' => 'Hello-World',
+        ],
+
+        'innerBlocks' => [],
+
+        'innerHTML' =>
+            '<p class="simple-text has-custom-css" id="Hello-World">Hello World!</p>',
+
+        'innerContent' => [
+            '<p class="simple-text has-custom-css" id="Hello-World">Hello World!</p>'
+        ],
+    ]
+]
+```
+
 ## Request Lifecycle
 
 ```mermaid
