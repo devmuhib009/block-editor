@@ -245,6 +245,14 @@ echo render_block( $block );
 ```
 
 ```php
+if ( 'core/paragraph' === $block['blockName'] ) {
+
+    echo $block['innerHTML'];
+
+}
+```
+
+```php
 if ( 'core/latest-posts' === $block['blockName'] ) {
 
     $query = new WP_Query(
