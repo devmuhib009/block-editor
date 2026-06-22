@@ -251,7 +251,12 @@ if ( 'core/paragraph' === $block['blockName'] ) {
 
 }
 ```
+### Output
+```html
+Hello World
+```
 
+### Dynamic Block Example
 ```php
 if ( 'core/latest-posts' === $block['blockName'] ) {
 
